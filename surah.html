@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Surah and Translite</title>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script>
+      async function dapatkanSurat() {
+        const container = document.getElementById("container");
+        const nomorsurah = new URLSearchParams(window.location.search).get(
+          "surahh"
+        );
+        const ambilData = await fetch(
+          `https://quran-api-id.vercel.app/surahs/${nomorsurah}/ayahs`
+        );
+        const dataAyahs = await ambilData.json();
+
+        // Loop forEach untuk setiap ayah dalam surah
+        dataAyahs.forEach((ayah) => {
+          container.innerHTML += `
+                    <div class="card">
+                        <p style="color: black; font-family: Roboto;">${ayah.arab}</p>
+                        <p style="color: black; font-family: Arial;">${ayah.translation}</p>
+                    </div>
+                `;
+        });
+      }
+
+      dapatkanSurat();
+    </script>
+  </body>
+</html>
